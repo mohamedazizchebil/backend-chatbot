@@ -1,0 +1,42 @@
+[
+    {
+        "question": "Comment puis-je vous aider à naviguer dans cette catégorie ?",
+        "options": [
+            {
+                "label": "Filtrer les produits",
+                "next": [
+                    {
+                        "question": "Par quel critère souhaitez-vous filtrer ?",
+                        "options": [
+                            { "label": "Marque", "action": "refine_search", "field": "brand" },
+                            { "label": "Prix", "action": "refine_search", "field": "price" },
+                            { "label": "Évaluation client", "action": "refine_search", "field": "rating" }
+                        ]
+                    }
+                ]
+            },
+            {
+                "label": "Voir les nouveautés",
+                "action": "redirect",
+                "url": "/categorie/{{category_name}}?sort=new-arrivals"
+            },
+            {
+                "label": "Conseils d'achat",
+                "next": [
+                    {
+                        "question": "Sur quel aspect souhaitez-vous des conseils ?",
+                        "options": [
+                            { "label": "Choisir la bonne taille", "action": "display_info", "info_key": "size_guide" },
+                            { "label": "Entretien des produits", "action": "display_info", "info_key": "care_tips" }
+                        ]
+                    }
+                ]
+            },
+            {
+                "label": "Retour à la page d'accueil",
+                "action": "redirect",
+                "url": "/"
+            }
+        ]
+    }
+]

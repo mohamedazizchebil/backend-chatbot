@@ -1,0 +1,43 @@
+[
+    {
+        "question": "Que puis-je faire pour affiner vos résultats de recherche ?",
+        "options": [
+            {
+                "label": "Ajouter un filtre",
+                "next": [
+                    {
+                        "question": "Quel type de filtre voulez-vous ajouter ?",
+                        "options": [
+                            { "label": "Couleur", "action": "refine_search", "field": "color" },
+                            { "label": "Taille", "action": "refine_search", "field": "size" },
+                            { "label": "Marque", "action": "refine_search", "field": "brand" },
+                            { "label": "Gamme de prix", "action": "refine_search", "field": "price_range" }
+                        ]
+                    }
+                ]
+            },
+            {
+                "label": "Changer l'ordre de tri",
+                "next": [
+                    {
+                        "question": "Comment voulez-vous trier les résultats ?",
+                        "options": [
+                            { "label": "Du plus récent au plus ancien", "action": "sort_results", "sort_by": "date_desc" },
+                            { "label": "Par pertinence", "action": "sort_results", "sort_by": "relevance" }
+                        ]
+                    }
+                ]
+            },
+            {
+                "label": "Effacer la recherche actuelle",
+                "action": "redirect",
+                "url": "/recherche"
+            },
+            {
+                "label": "Démarrer une nouvelle recherche",
+                "action": "redirect",
+                "url": "/recherche-vide"
+            }
+        ]
+    }
+]

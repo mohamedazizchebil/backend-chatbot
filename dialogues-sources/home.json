@@ -1,0 +1,35 @@
+[
+    {
+        "question": "Bienvenue sur notre boutique en ligne ! Comment puis-je vous aider aujourd'hui ?",
+        "options": [
+            {
+                "label": "Découvrir nos produits",
+                "action": "redirect",
+                "url": "/categories"
+            },
+            {
+                "label": "Voir les promotions actuelles",
+                "action": "redirect",
+                "url": "/promotions"
+            },
+            {
+                "label": "Suivre ma commande",
+                "action": "redirect",
+                "url": "/mon-compte/commandes"
+            },
+            {
+                "label": "Poser une question générale",
+                "action": "contact_agent",
+                "next": [
+                    {
+                        "question": "De quel sujet s'agit-il ?",
+                        "options": [
+                            { "label": "Livraison", "action": "display_info", "info_key": "delivery_info" },
+                            { "label": "Retours et remboursements", "action": "display_info", "info_key": "returns_info" }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

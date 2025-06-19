@@ -1,0 +1,52 @@
+[
+    {
+        "question": "Que souhaitez-vous faire ?",
+        "options": [
+            {
+                "label": "Voir des produits similaires",
+                "action": "semantic_search",
+                "prompt": "Trouve-moi des produits similaires à {{product_name}}",
+                "next": [
+                    {
+                        "question": "Souhaitez-vous filtrer par prix ?",
+                        "options": [
+                            {
+                                "label": "Oui",
+                                "action": "refine_search",
+                                "field": "price"
+                            },
+                            {
+                                "label": "Non",
+                                "action": "show_results"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "label": "Vérifier la disponibilité en magasin",
+                "action": "redirect",
+                "url": "/magasins-disponibles?produit={{product_id}}"
+            },
+            {
+                "label": "Parler à un conseiller",
+                "action": "contact_agent",
+                "next": [
+                    {
+                        "question": "Préférez-vous :",
+                        "options": [
+                            {
+                                "label": "Chat en direct",
+                                "action": "open_livechat"
+                            },
+                            {
+                                "label": "Être rappelé",
+                                "action": "callback_form"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

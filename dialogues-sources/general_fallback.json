@@ -1,0 +1,11 @@
+[
+    {
+        "question": "Bonjour ! Je suis votre assistant virtuel. Comment puis-je vous aider aujourd'hui ?",
+        "options": [
+            { "label": "J'ai une question sur ma commande", "action": "redirect", "url": "/mon-compte/commandes" },
+            { "label": "Je cherche un produit spécifique", "action": "redirect", "url": "/recherche" },
+            { "label": "Informations sur la livraison", "action": "display_info", "info_key": "delivery_info" },
+            { "label": "Contacter le service client", "action": "contact_agent" }
+        ]
+    }
+]
