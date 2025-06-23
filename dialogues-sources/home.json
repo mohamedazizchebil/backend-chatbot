@@ -1,35 +1,46 @@
 [
     {
-        "question": "Bienvenue sur notre boutique en ligne ! Comment puis-je vous aider aujourd'hui ?",
-        "options": [
+      "question": "Bonjour 👋 Que souhaitez-vous faire ?",
+      "options": [
+        {
+          "label": "Voir des produits similaires",
+          "action": "semantic_search",
+          "prompt": "Montre-moi des articles similaires à {{product_name}}",
+          "next": [
             {
-                "label": "Découvrir nos produits",
-                "action": "redirect",
-                "url": "/categories"
-            },
-            {
-                "label": "Voir les promotions actuelles",
-                "action": "redirect",
-                "url": "/promotions"
-            },
-            {
-                "label": "Suivre ma commande",
-                "action": "redirect",
-                "url": "/mon-compte/commandes"
-            },
-            {
-                "label": "Poser une question générale",
-                "action": "contact_agent",
-                "next": [
-                    {
-                        "question": "De quel sujet s'agit-il ?",
-                        "options": [
-                            { "label": "Livraison", "action": "display_info", "info_key": "delivery_info" },
-                            { "label": "Retours et remboursements", "action": "display_info", "info_key": "returns_info" }
-                        ]
-                    }
-                ]
+              "question": "Vous cherchez un produit spécifique ?",
+              "options": []
             }
-        ]
+          ]
+        },
+        {
+          "label": "Vérifier la disponibilité en magasin",
+          "action": "redirect",
+          "url": "/magasins-disponibles?produit={{product_id}}",
+          "next": []
+        },
+        {
+          "label": "Contacter un conseiller",
+          "action": "contact_agent",
+          "next": [
+            {
+              "question": "Souhaitez-vous :",
+              "options": [
+                {
+                  "label": "Discuter en direct",
+                  "action": "open_livechat",
+                  "next": []
+                },
+                {
+                  "label": "Être rappelé",
+                  "action": "callback_form",
+                  "next": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-]
+  ]
+  

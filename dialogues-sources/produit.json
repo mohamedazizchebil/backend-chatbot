@@ -1,52 +1,62 @@
-[
+ [
     {
-        "question": "Que souhaitez-vous faire ?",
-        "options": [
+      "question": "Bonjour 👋 Que souhaitez-vous faire ?",
+      "options": [
+        {
+          "label": "Trouver un produit",
+          "action": "assist_find_product",
+          "next": [
             {
-                "label": "Voir des produits similaires",
-                "action": "semantic_search",
-                "prompt": "Trouve-moi des produits similaires à {{product_name}}",
-                "next": [
+              "question": "Avez-vous besoin d'aide pour trouver un produit ?",
+              "options": [
+                {
+                  "label": "Oui, je cherche un produit spécifique",
+                  "action": "semantic_search",
+                  "prompt": "Trouve-moi des produits similaires à {{product_name}}",
+                  "next": [
                     {
-                        "question": "Souhaitez-vous filtrer par prix ?",
-                        "options": [
-                            {
-                                "label": "Oui",
-                                "action": "refine_search",
-                                "field": "price"
-                            },
-                            {
-                                "label": "Non",
-                                "action": "show_results"
-                            }
-                        ]
+                      "question": "Quel produit recherchez-vous ?",
+                      "options": []
                     }
-                ]
-            },
-            {
-                "label": "Vérifier la disponibilité en magasin",
-                "action": "redirect",
-                "url": "/magasins-disponibles?produit={{product_id}}"
-            },
-            {
-                "label": "Parler à un conseiller",
-                "action": "contact_agent",
-                "next": [
-                    {
-                        "question": "Préférez-vous :",
-                        "options": [
-                            {
-                                "label": "Chat en direct",
-                                "action": "open_livechat"
-                            },
-                            {
-                                "label": "Être rappelé",
-                                "action": "callback_form"
-                            }
-                        ]
-                    }
-                ]
+                  ]
+                },
+                {
+                  "label": "Non, je veux explorer les catégories",
+                  "action": "explore_categories",
+                  "next": []
+                }
+              ]
             }
-        ]
+          ]
+        },
+        {
+          "label": "Vérifier la disponibilité en magasin",
+          "action": "redirect",
+          "url": "/magasins-disponibles?produit={{product_id}}",
+          "next": []
+        },
+        {
+          "label": "Contacter un conseiller",
+          "action": "contact_agent",
+          "next": [
+            {
+              "question": "Souhaitez-vous :",
+              "options": [
+                {
+                  "label": "Discuter en direct",
+                  "action": "open_livechat",
+                  "next": []
+                },
+                {
+                  "label": "Être rappelé",
+                  "action": "callback_form",
+                  "next": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-]
+  ]
+

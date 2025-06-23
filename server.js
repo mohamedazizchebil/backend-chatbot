@@ -5,6 +5,7 @@ const cors = require('cors');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const chatRoutes = require('./routes/chat.routes');
+const searchRoute = require('./routes/search.route');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -34,7 +35,7 @@ app.use(session({
     cookie: {
         maxAge: 1000 * 60*5, // ⏱️ Durée de vie de la session : 5 minutes
         httpOnly: true,
-        secure: false // mettre true en production avec HTTPS
+        secure: true 
     }
 }));
 
@@ -42,6 +43,8 @@ app.use(session({
 app.get('/', (req, res) => {
     res.send('API Chatbot Backend Fonctionne !');
 });
+
+app.use('/api/search', searchRoute); // Route de recherche
 
 // Routes du chatbot
 app.use('/api/chat', chatRoutes);
