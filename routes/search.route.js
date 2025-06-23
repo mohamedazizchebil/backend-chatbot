@@ -4,9 +4,8 @@ const {askGemini} = require('../lib/gemini');
 
 
 
-router.post('/search', async (req, res) => {
-  const nom = req.query.nom;
-  const description = req.query.description;
+router.post('/', async (req, res) => {
+ const { nom, description } = req.body;
 
 
   if (!nom && !description) {
@@ -14,12 +13,26 @@ router.post('/search', async (req, res) => {
   }
 
   try {
-    const query = `génère uniquement une requête Elasticsearch au format JSON, contenant obligatoirement les clés "query", "match" et "size", pour rechercher le terme "${nom || description}" dans les champs "nom" et "description". Ne retourne rien d'autre que la requête JSON.`;
+    const query = `
+Génère uniquement une requête Elasticsearch au format JSON brut, contenant obligatoirement les clés "query", "match" et "size". 
+La requête doit rechercher le terme "${nom || ''}" dans le champ "nom" ET le terme "${description || ''}" dans le champ "description". 
+Utilise une clause booléenne "must" avec deux conditions "match", une par champ.
+Ne retourne aucun texte explicatif ni bloc markdown, seulement l'objet JSON valide.
+`;
+
     const response = await askGemini(query);
-    return res.json({ response });
+    const cleaned = response
+    .replace(/```json/g, '')  
+    .replace(/```/g, '')      
+    .trim();                  
+    let parsedJSON;
+  parsedJSON = JSON.parse(cleaned);
+    return res.json(parsedJSON);
   } catch (error) {
     console.error('Error in search route:', error);
     return res.status(500).json({ error: 'Internal server error.' });
   }
 });
 
+
+module.exports = router;
