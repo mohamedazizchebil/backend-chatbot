@@ -2,10 +2,9 @@ require('dotenv').config(); // Charge les variables d'environnement
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
 const chatRoutes = require('./routes/chat.routes');
 const searchRoute = require('./routes/search.route');
+const similairRoute = require('./routes/similair.route');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -17,27 +16,19 @@ const MONGODB_URI = process.env.MONGODB_URI;
 app.use(express.json());
 
 // Middleware CORS pour autoriser les appels depuis le frontend
+const allowedOrigins = [
+    'http://127.0.0.1:5500',
+    'http://localhost:3000',
+    process.env.FRONTEND_URL // dans ton fichier .env
+];
+
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
-    credentials: true // 🔑 Important pour autoriser les cookies de session
+    credentials: true
 }));
 
-// Middleware session
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'votre_clé_secrète',
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-        mongoUrl: MONGODB_URI,
-        collectionName: 'sessions'
-    }),
-    cookie: {
-        maxAge: 1000 * 60*5, // ⏱️ Durée de vie de la session : 5 minutes
-        httpOnly: true,
-        secure: true 
-    }
-}));
+
 
 // Route de test
 app.get('/', (req, res) => {
@@ -48,6 +39,8 @@ app.use('/api/search', searchRoute); // Route de recherche
 
 // Routes du chatbot
 app.use('/api/chat', chatRoutes);
+
+app.use('/api/similair', similairRoute); // Route de similarité
 
 // Connexion MongoDB + lancement serveur
 mongoose.connect(MONGODB_URI)

@@ -23,17 +23,40 @@
                 {
                   "label": "Non, je veux explorer les catégories",
                   "action": "explore_categories",
-                  "next": []
+                  "next": [
+                    {
+                      "question": "Quelle catégorie vous intéresse ?",
+                      "options": [
+                        {
+                          "label": "Vêtements",
+                          "action": "redirect",
+                          "url": "/categorie/vetements"
+                        },
+                        {
+                          "label": "Électronique",
+                          "action": "redirect",
+                          "url": "/categorie/electronique"
+                        },
+                        {
+                          "label": "Maison et jardin",
+                          "action": "redirect",
+                          "url": "/categorie/maison-jardin"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
           ]
         },
         {
-          "label": "Vérifier la disponibilité en magasin",
-          "action": "redirect",
-          "url": "/magasins-disponibles?produit={{product_id}}",
-          "next": []
+          "label": "Chercher un produit similaire",
+          "action": "similar_product_search",
+          "url": "",
+          "next": [
+
+          ]
         },
         {
           "label": "Contacter un conseiller",
