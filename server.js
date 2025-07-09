@@ -16,14 +16,13 @@ const MONGODB_URI = process.env.MONGODB_URI;
 app.use(express.json());
 
 // Middleware CORS pour autoriser les appels depuis le frontend
-/*const allowedOrigins = [
-    'http://127.0.0.1:5500',
+const allowedOrigins = [
     'http://localhost:3000',
-    process.env.FRONTEND_URL // dans ton fichier .env
-];*/
+    process.env.FRONTEND_URL 
+];
 
 app.use(cors({
-    origin: '*', 
+    origin: allowedOrigins, 
     methods: ['GET', 'POST'],
     credentials: true
 }));
