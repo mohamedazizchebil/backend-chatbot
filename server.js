@@ -18,16 +18,10 @@ app.use(express.json());
 
 
 app.use(cors({
-  origin: function (origin, callback) {
-    
-    if (!origin || origin === 'null') {
-      callback(new Error('Origin not allowed by CORS'));
-    } else {
-      callback(null, true);
-    }
-  },
-  methods: ['GET', 'POST'],
-  credentials: false 
+    origin: true, 
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: false, 
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
 
