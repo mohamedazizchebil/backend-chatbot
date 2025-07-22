@@ -3,12 +3,30 @@ const router = express.Router();
 const { askGemini } = require('../lib/gemini');
 const { Client } = require('@elastic/elasticsearch');
 require('dotenv').config();
+const ClientModel= require('../models/client');
 
 router.post('/', async (req, res) => {
-  const nom = req.body.nom;
+  const {nom,appid} = req.body;
+
+
+  if (!nom || !appid) {
+    return res.status(400).json({ error: 'Nom and appid are required.' });
+  }
+
 
 
   try{
+
+    const client = await ClientModel.findOne({appid});
+
+    if (!client) {
+      return res.status(404).json({ error: 'Client not found.' });
+    }
+
+
+
+
+    // Génère une requête Elasticsearch avec Gemini
  const query = `
 Tu es une intelligence artificielle experte en e-commerce et Elasticsearch.
 
@@ -66,15 +84,19 @@ Nom du produit : ${nom}
       const parsedJSON = JSON.parse(cleanedResponse);
 
 
+      console.log('Elastic URL utilisée :', client.elasticsearch.url);
+
+
+
 
 
 
 
 
       
-    // 🔁 Simulation de réponse Elasticsearch
-    const client = new Client({
-  node: process.env.ELASTIC_NODE_URL,
+    // Simulation de réponse Elasticsearch
+    const clientElastic = new Client({
+  node: client.elasticsearch.url,
   auth: {
     apiKey: process.env.ELASTICSEARCH_API_KEY 
   },
@@ -83,7 +105,7 @@ Nom du produit : ${nom}
 
 const index = 'search-products';
 
-const result = await client.search({
+const result = await clientElastic.search({
   index,
   body: parsedJSON,
 });

@@ -3,15 +3,23 @@ const router = express.Router();
 const { askGemini } = require('../lib/gemini');
 const { Client } = require('@elastic/elasticsearch');
 require('dotenv').config();
+const ClientModel= require('../models/client');
 
-router.post('/', async (req, res) => {
-  const { nom, description } = req.body;
 
-  if (!nom && !description) {
+
+router.post('/search', async (req, res) => {
+  const { nom, description,appid } = req.body;
+
+  if (!nom && !description && !appid) {
     return res.status(400).json({ error: 'Query parameter is required.' });
   }
 
   try {
+    const client = await ClientModel.findOne({appid});
+    
+        if (!client) {
+          return res.status(404).json({ error: 'Client not found.' });
+        }
     // Génère une requête Elasticsearch avec Gemini
     const query = `
 Génère uniquement une requête Elasticsearch au format JSON brut, contenant obligatoirement les clés "query", "match" et "size". 
@@ -28,9 +36,9 @@ Ne retourne aucun texte explicatif ni bloc markdown, seulement l'objet JSON vali
 
     let parsedJSON = JSON.parse(cleaned);
 
-    // 🔁 Simulation de réponse Elasticsearch
-    const client = new Client({
-  node: 'https://my-elasticsearch-project-b28f3a.es.us-east-1.aws.elastic.cloud:443',
+    // Simulation de réponse Elasticsearch
+    const clientElastic = new Client({
+  node: client.elasticsearch.url,
   auth: {
     apiKey: process.env.ELASTICSEARCH_API_KEY 
   },
@@ -39,7 +47,7 @@ Ne retourne aucun texte explicatif ni bloc markdown, seulement l'objet JSON vali
 
 const index = 'search-products';
 
-const result = await client.search({
+const result = await clientElastic.search({
   index,
   body: parsedJSON,
 });

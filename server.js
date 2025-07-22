@@ -5,6 +5,9 @@ const cors = require('cors');
 const chatRoutes = require('./routes/chat.routes');
 const searchRoute = require('./routes/search.route');
 const similairRoute = require('./routes/similair.route');
+const authRoutes = require('./routes/auth.routes'); // Import des routes d'authentification
+const dialogueRoutes = require('./routes/dialogue.routes'); // Import des routes de dialogue
+const elasticInformationRoute = require('./routes/elasticInformation'); // Import des routes d'information Elasticsearch
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -32,19 +35,29 @@ app.get('/', (req, res) => {
     res.send('API Chatbot Backend Fonctionne !');
 });
 
-app.use('/api/search', searchRoute); // Route de recherche
+app.use('/api', searchRoute); // Route de recherche
 
 // Routes du chatbot
 app.use('/api/chat', chatRoutes);
 
 app.use('/api/similair', similairRoute); // Route de similarité
 
+
+app.use('/api',authRoutes); // Routes d'authentification
+
+app.use('/api',dialogueRoutes); // Routes de dialogue
+
+app.use('/api', elasticInformationRoute); // Routes d'information Elasticsearch
+
+
+
+
 // Connexion MongoDB + lancement serveur
 mongoose.connect(MONGODB_URI)
     .then(() => {
-        console.log('✅ Connecté à MongoDB');
+        console.log('Connecté à MongoDB');
         app.listen(PORT, () => {
-            console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`);
+            console.log(`Serveur démarré sur http://localhost:${PORT}`);
         });
     })
-    .catch(err => console.error('❌ Erreur de connexion à MongoDB:', err));
+    .catch(err => console.error('Erreur de connexion à MongoDB:', err));

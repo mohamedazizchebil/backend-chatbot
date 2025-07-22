@@ -5,12 +5,12 @@ const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_clé_ultra_secrète';
 
-// 🔐 Fonction pour générer un token
+//Fonction pour générer un token
 function generateToken(sessionId) {
     return jwt.sign({ sessionId }, JWT_SECRET, { expiresIn: '5m' }); // 5 minutes de validité
 }
 
-// 🔐 Fonction pour vérifier un token
+//Fonction pour vérifier un token
 function verifyToken(token) {
     return jwt.verify(token, JWT_SECRET);
 }
@@ -19,18 +19,18 @@ function verifyToken(token) {
 
 // POST /api/chat/init
 router.post('/init', async (req, res) => {
-    const { appId, pageType } = req.body;
+    const { appid, pageType } = req.body;
 
     try {
-        let config = await PageDialogue.findOne({ pageType });
+        let config = await PageDialogue.findOne({ pageType , appid }).select('pageType dialogue -_id');
 
         if (!config || !config.dialogue || config.dialogue.length === 0) {
-            config = await PageDialogue.findOne({ pageType: 'general_fallback' });
+            config = await PageDialogue.findOne({ pageType: 'general_fallback' ,appid});
             if (!config || !config.dialogue || config.dialogue.length === 0) {
                 return res.status(200).json({
                     token: null,
                     initialDialogueConfig: null,
-                    errorMessage: "Désolé, l'assistant est temporairement indisponible. Aucune configuration de dialogue n'a pu être chargée."
+                    errorMessage: "Désolé, Aidea est temporairement indisponible."
                 });
             }
         }
