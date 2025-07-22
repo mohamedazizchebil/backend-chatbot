@@ -4,7 +4,8 @@ const crypto = require('crypto');
 
 const ElasticsearchSchema = new mongoose.Schema({
   url: { type: String, required: true },
-  apiKey: { type: String, required: true }
+  apiKey: { type: String, required: true },
+  index:{type: String, required: true}
 });
 
 

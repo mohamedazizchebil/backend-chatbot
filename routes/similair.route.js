@@ -103,7 +103,7 @@ Nom du produit : ${nom}
   serverMode: 'serverless',
 });
 
-const index = 'search-products';
+const index = client.elasticsearch.index;
 
 const result = await clientElastic.search({
   index,

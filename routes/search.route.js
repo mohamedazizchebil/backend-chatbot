@@ -45,7 +45,7 @@ Ne retourne aucun texte explicatif ni bloc markdown, seulement l'objet JSON vali
   serverMode: 'serverless',
 });
 
-const index = 'search-products';
+const index = client.elasticsearch.index;
 
 const result = await clientElastic.search({
   index,

@@ -5,10 +5,10 @@ const authenticateToken = require('../middlewares/authenticateToken');
 
 
 router.post('/addElasticInformation', authenticateToken, async (req, res) => {
-    const { url , apikey } = req.body;
+    const { url , apikey, index } = req.body;
 
-    if (!url || !apikey) {
-        return res.status(400).json({ error: 'url and apikey are required.' });
+    if (!url || !apikey || !index) {
+        return res.status(400).json({ error: 'url and apikey ,index are required.' });
     }
     try {
         const client = req.client; // Récupère le client authentifié depuis le middleware
@@ -23,6 +23,7 @@ router.post('/addElasticInformation', authenticateToken, async (req, res) => {
     }
             config.elasticsearch.url = url;
             config.elasticsearch.apiKey = apikey;
+            config.elasticsearch.index=index;
             await config.save();
         }
         
