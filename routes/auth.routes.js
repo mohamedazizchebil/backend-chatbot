@@ -46,7 +46,7 @@ router.post('/login', async (req, res) => {
   try {
     const { name, password } = req.body;
     if (!name || !password) {
-      return res.status(400).json({ error: 'Email and password are required.' });
+      return res.status(400).json({ error: 'Name and password are required.' });
     }
     // Find client by name
     const client= await Client.findOne({ name });
@@ -64,7 +64,7 @@ router.post('/login', async (req, res) => {
     const token =jwt.sign(
       { appid: client.appid, name: client.name },
       JWT_SECRET,
-      { expiresIn: '1m' } // Token expires in 1 hour
+      { expiresIn: '1h' } // Token expires in 1 hour
     );
 
     // Return appid and apiKey

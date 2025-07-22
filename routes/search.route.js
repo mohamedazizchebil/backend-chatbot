@@ -40,7 +40,7 @@ Ne retourne aucun texte explicatif ni bloc markdown, seulement l'objet JSON vali
     const clientElastic = new Client({
   node: client.elasticsearch.url,
   auth: {
-    apiKey: process.env.ELASTICSEARCH_API_KEY 
+    apiKey: client.elasticsearch.apiKey 
   },
   serverMode: 'serverless',
 });

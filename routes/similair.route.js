@@ -47,7 +47,7 @@ Ta tâche est de :
 
 Exemple de sortie attendue :
 
-{
+{"size":5,
   "query": {
     "bool": {
       "must": [
@@ -98,7 +98,7 @@ Nom du produit : ${nom}
     const clientElastic = new Client({
   node: client.elasticsearch.url,
   auth: {
-    apiKey: process.env.ELASTICSEARCH_API_KEY 
+    apiKey: client.elasticsearch.apiKey 
   },
   serverMode: 'serverless',
 });
